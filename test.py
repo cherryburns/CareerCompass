@@ -6,3 +6,5 @@ import scipy
 print("import scipy successfully")
 import matplotlib
 print("import matplotlib successfully")
+import spacy
+print("spacy imported successfully")
