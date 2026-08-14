@@ -13,13 +13,17 @@ def init_db():
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS resumes (
-            resume_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER,
-            upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            ats_score INTEGER,
-            missing_skills TEXT,
-            FOREIGN KEY (user_id) REFERENCES users(user_id)
-        )
+    resume_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    file_name TEXT,
+    target_role TEXT,
+    upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ats_score INTEGER,
+    matched_skills TEXT,
+    missing_skills TEXT,
+    feedback TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+)
     ''')
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS user_sessions (
@@ -49,17 +53,37 @@ def register_user(username, phone_number, password_hash):
     except sqlite3.IntegrityError:
         return False, "Error: This phone number is already registered!"
 
-# FUNCTION 2: Save a resume analysis score
-def save_resume_score(user_id, ats_score, missing_skills):
+# FUNCTION 2: Save the resume analysis score
+import json
+
+def save_resume_analysis(user_id, file_name, analysis):
     conn = sqlite3.connect("career_compass.db")
     cursor = conn.cursor()
-    cursor.execute(
-        "INSERT INTO resumes (user_id, ats_score, missing_skills) VALUES (?, ?, ?)",
-        (user_id, ats_score, missing_skills)
-    )
+
+    cursor.execute("""
+        INSERT INTO resumes (
+            user_id,
+            file_name,
+            target_role,
+            ats_score,
+            matched_skills,
+            missing_skills,
+            feedback
+        ) VALUES (?, ?, ?, ?, ?, ?, ?)
+    """, (
+        user_id,
+        file_name,
+        analysis["target_role"],
+        analysis["score"],
+        json.dumps(analysis["matched_skills"]),
+        json.dumps(analysis["missing_skills"]),
+        json.dumps(analysis["feedback"])
+    ))
+
     conn.commit()
     conn.close()
-    print("Resume score recorded!")
+
+    print("Resume analysis saved successfully!")
 
 if __name__ == "__main__":
     init_db()
