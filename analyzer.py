@@ -9,7 +9,7 @@ from scorer import (
 def analyze_resume(file_path, role="AI Engineer"):
     text = extract_text(file_path)
 
-    found_skills = extract_skills(text, role)
+    found_skills, confidence = extract_skills(text, role)
 
     score_result = calculate_ats_score(found_skills, role)
 

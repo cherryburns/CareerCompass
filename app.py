@@ -6,7 +6,7 @@ from database import init_db, save_resume_analysis
 init_db()
 
 user_id = 1
-file_path = "Warehouse_Management.docx"
+file_path = "Resume.docx"
 role = "AI Engineer"
 
 # Run analysis
