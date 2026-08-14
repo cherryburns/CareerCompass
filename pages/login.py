@@ -14,14 +14,13 @@ USER_FILE = os.path.join(BASE_DIR, "users.json")
 
 
 def load_users():
-
     if not os.path.exists(USER_FILE):
         return {}
 
     try:
         with open(USER_FILE, "r") as file:
             return json.load(file)
-    except:
+    except Exception:
         return {}
 
 
@@ -165,11 +164,15 @@ with center:
 
         if phone not in users:
 
-            st.error("Account not found. Please Sign Up first.")
+            st.error(
+                "Account not found. Please Sign Up first."
+            )
 
         elif users[phone]["password"] != hash_password(password):
 
-            st.error("Incorrect password.")
+            st.error(
+                "Incorrect password."
+            )
 
         else:
 
@@ -186,9 +189,15 @@ with center:
     st.write("")
 
     if st.button("Forgot Password?"):
-        st.switch_page("pages/forgot_password.py")
+
+        st.switch_page(
+            "pages/forgot_password.py"
+        )
 
     st.write("")
 
     if st.button("Create New Account"):
-        st.switch_page("pages/signup.py")
+
+        st.switch_page(
+            "pages/signup.py"
+        )
