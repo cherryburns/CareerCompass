@@ -21,5 +21,6 @@ def extract_text(file_path):
         else:
             raise ValueError("Only PDF and DOCX files are supported.")
 
+    
     except Exception as e:
-        return f"Error reading file: {str(e)}"
+        raise RuntimeError(f"Error reading file: {str(e)}")

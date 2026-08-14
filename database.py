@@ -1,4 +1,5 @@
 import sqlite3
+import json
 
 def init_db():
     conn = sqlite3.connect("career_compass.db")
@@ -36,7 +37,6 @@ def init_db():
     ''')
     conn.commit()
     conn.close()
-    print("Database initialized perfectly!")
 
 # FUNCTION 1: Add a new user safely
 def register_user(username, phone_number, password_hash):
@@ -54,7 +54,6 @@ def register_user(username, phone_number, password_hash):
         return False, "Error: This phone number is already registered!"
 
 # FUNCTION 2: Save the resume analysis score
-import json
 
 def save_resume_analysis(user_id, file_name, analysis):
     conn = sqlite3.connect("career_compass.db")
@@ -83,7 +82,6 @@ def save_resume_analysis(user_id, file_name, analysis):
     conn.commit()
     conn.close()
 
-    print("Resume analysis saved successfully!")
 
 def get_user_resume_history(user_id):
     conn = sqlite3.connect("career_compass.db")

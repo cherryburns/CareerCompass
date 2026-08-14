@@ -23,7 +23,8 @@ def analyze_resume(file_path, role="AI Engineer"):
         "score": score_result["score"],
         "matched_skills": score_result["matched_skills"],
         "missing_skills": score_result["missing_skills"],
-        "feedback": feedback
+        "feedback": feedback,
+        "extraction_confidence": confidence
     }
 
     analysis["interview_context"] = interview_context(analysis)
