@@ -1,3 +1,9 @@
+import spacy
+
+# Load spaCy English model
+nlp = spacy.load("en_core_web_sm")
+
+# Role-based skill database
 SKILLS_DB = {
     "AI Engineer": [
         "python", "sql", "pandas", "numpy",
@@ -15,28 +21,21 @@ SKILLS_DB = {
         "mysql", "postgresql", "rest api", "docker"
     ]
 }
-import spacy
-from skills import SKILLS_DB
-
-nlp = spacy.load("en_core_web_sm")
 
 def extract_skills(text, role):
     text_lower = text.lower()
     found_skills = []
 
+    # Match skills from the selected role
     for skill in SKILLS_DB.get(role, []):
         if skill in text_lower:
             found_skills.append(skill)
 
-    return sorted(list(set(found_skills)))
-def extract_skills(text, role):
-    text_lower = text.lower()
-    found_skills = []
+    # Remove duplicates and sort alphabetically
+    found_skills = sorted(list(set(found_skills)))
 
-    for skill in SKILLS_DB.get(role, []):
-        if skill in text_lower:
-            found_skills.append(skill)
-
-    confidence = round(len(found_skills) / len(SKILLS_DB[role]) * 100, 1)
+    # Calculate extraction confidence
+    total_skills = len(SKILLS_DB.get(role, []))
+    confidence = round((len(found_skills) / total_skills) * 100, 1) if total_skills > 0 else 0.0
 
     return found_skills, confidence
