@@ -28,7 +28,7 @@ init_db()
 # Main execution
 if __name__ == "__main__":
     user_id = 1
-    file_path = "Warehouse_Management.docx"
+    file_path = "Resume.docx"
     role = "AI Engineer"
 
     # -------- FILE VALIDATION --------
