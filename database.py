@@ -85,5 +85,21 @@ def save_resume_analysis(user_id, file_name, analysis):
 
     print("Resume analysis saved successfully!")
 
+def get_user_resume_history(user_id):
+    conn = sqlite3.connect("career_compass.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT file_name, target_role, ats_score, upload_date
+        FROM resumes
+        WHERE user_id = ?
+        ORDER BY upload_date DESC
+    """, (user_id,))
+
+    rows = cursor.fetchall()
+    conn.close()
+
+    return rows
+
 if __name__ == "__main__":
     init_db()
